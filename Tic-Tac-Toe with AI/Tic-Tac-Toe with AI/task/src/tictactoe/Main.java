@@ -16,10 +16,8 @@ public class Main {
         board = inp;
         decideUserTine();
         boolean exit = false;
+        drawBoard();
         while (!exit) {
-            drawBoard();
-
-
             System.out.println("Enter the coordinates:");
             try {
                 int inpX = scanner.nextInt();
