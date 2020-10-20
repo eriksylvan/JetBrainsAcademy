@@ -33,8 +33,7 @@ public class Main {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("You should enter numbers!");
-            } catch (Exception e) {
-                throw e;
+                scanner.next();
             }
         }
         drawBoard();
