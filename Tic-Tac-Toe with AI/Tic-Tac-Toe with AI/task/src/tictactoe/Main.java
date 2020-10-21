@@ -91,10 +91,7 @@ public class Main {
     }
 
     private static void checkState(){
-        if (!board.contains("_")){
-            System.out.println("Draw");
-        }
-        else if (board.substring(0,3).equals("XXX") ||
+        if (board.substring(0,3).equals("XXX") ||
                 board.substring(3,6).equals("XXX") ||
                 board.substring(6).equals("XXX") ||
                 (board.charAt(0) == 'X' && board.charAt(3) =='X' && board.charAt(6) == 'X') ||
@@ -114,6 +111,9 @@ public class Main {
                     (board.charAt(2) == 'O' && board.charAt(4) =='O' && board.charAt(6) == 'O')){
                 System.out.println("O wins");
             }
+        else if (!board.contains("_")) {
+            System.out.println("Draw");
+        }
         else{
             System.out.println("Game not finished");
         }
