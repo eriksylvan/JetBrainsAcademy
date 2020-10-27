@@ -1,45 +1,81 @@
 package tictactoe;
 
-import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
 
     static Scanner scanner = new Scanner(System.in);
+    static Random rand = new Random();
     static String board = "";
-    static char userTile = ' ';
+    static char userTile = 'X';
+    static GameStates state = GameStates.Init;
+
+    public enum GameStates {
+        Init,
+        PlayerTurn,
+        ComputerTurn,
+        Exit
+    }
 
     public static void main(String[] args) {
-        System.out.println("Enter cells:");
-        String inp = scanner.next();
-        board = inp;
-        decideUserTine();
+        // System.out.println("Enter cells:");
+        // String inp = scanner.next();
+        // board = inp;
+
+        // decideUserTine();
         boolean exit = false;
 
-        drawBoard();
         while (!exit) {
-            System.out.println("Enter the coordinates:");
-            try {
+            switch(state) {
+                case Init:
+                    board = "_________";
+                    state = GameStates.PlayerTurn;
+                    break;
+                case PlayerTurn:
+                    System.out.println("Enter the coordinates:");
+                    try {
 
-                int inpX = scanner.nextInt();
-                int inpY = scanner.nextInt();
-                if (inpX < 1 || inpX > 3 || inpY < 1 || inpY > 3) {
-                    System.out.println("Coordinates should be from 1 to 3!");
-                } else {
-                    if (getCellContent(inpX, inpY) == '_') {
-                        setTile(inpX, inpY, userTile);
-                        exit = true;
-                    } else
-                        System.out.println("This cell is occupied! Choose another one!");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("You should enter numbers!");
-                scanner.next();
+                        int inpX = scanner.nextInt();
+                        int inpY = scanner.nextInt();
+                        if (inpX < 1 || inpX > 3 || inpY < 1 || inpY > 3) {
+                            System.out.println("Coordinates should be from 1 to 3!");
+                        } else {
+                            if (getCellContent(inpX, inpY) == '_') {
+                                setTile(inpX, inpY, userTile);
+                                state = GameStates.ComputerTurn;
+                            } else
+                                System.out.println("This cell is occupied! Choose another one!");
+                        }
+                    } catch (InputMismatchException e) {
+                        System.out.println("You should enter numbers!");
+                        scanner.next();
+                    }
+                    break;
+
+                case ComputerTurn:
+                    System.out.println("Making move level \"easy\":");
+                    int p = pickRandomPosition();
+                    StringBuilder str = new StringBuilder(board);
+                    str.setCharAt(p, 'O');
+                    board = str.toString();
+                    state = GameStates.PlayerTurn;
+                    break;
+
+                case Exit:
+                    exit = true;
+                    break;
+                default:
+                    // should not end up here
             }
+            if (!exit) {
+                drawBoard();
+                checkWinner();
+            }
+
         }
-        drawBoard();
-        checkState();
+
     }
 
     private static void decideUserTine() {
@@ -92,7 +128,16 @@ public class Main {
             System.out.println("This cell is occupied! Choose another one!");
     }
 
-    private static void checkState(){
+    private static int pickRandomPosition() {
+        int pos;
+        //TODO: check if free position exists
+        do
+          pos = rand.nextInt(9);
+        while (board.charAt(pos)!='_');
+        return pos;
+    }
+
+    private static void checkWinner(){
         if (board.substring(0,3).equals("XXX") ||
                 board.substring(3,6).equals("XXX") ||
                 board.substring(6).equals("XXX") ||
@@ -102,6 +147,7 @@ public class Main {
                 (board.charAt(0) == 'X' && board.charAt(4) =='X' && board.charAt(8) == 'X') ||
                 (board.charAt(2) == 'X' && board.charAt(4) =='X' && board.charAt(6) == 'X')){
             System.out.println("X wins");
+            state = GameStates.Exit;
         }
         else if (board.substring(0,3).equals("OOO") ||
                     board.substring(3,4).equals("OOO") ||
@@ -111,13 +157,15 @@ public class Main {
                     (board.charAt(2) == 'O' && board.charAt(5) =='O' && board.charAt(8) == 'O') ||
                     (board.charAt(0) == 'O' && board.charAt(4) =='O' && board.charAt(8) == 'O') ||
                     (board.charAt(2) == 'O' && board.charAt(4) =='O' && board.charAt(6) == 'O')){
-                System.out.println("O wins");
+            System.out.println("O wins");
+            state = GameStates.Exit;
             }
         else if (!board.contains("_")) {
             System.out.println("Draw");
+            state = GameStates.Exit;
         }
         else{
-            System.out.println("Game not finished");
+            //System.out.println("Game not finished");
         }
     }
 }
