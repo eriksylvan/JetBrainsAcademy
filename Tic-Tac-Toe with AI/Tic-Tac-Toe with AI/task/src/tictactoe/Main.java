@@ -16,10 +16,12 @@ public class Main {
         board = inp;
         decideUserTine();
         boolean exit = false;
+
         drawBoard();
         while (!exit) {
             System.out.println("Enter the coordinates:");
             try {
+
                 int inpX = scanner.nextInt();
                 int inpY = scanner.nextInt();
                 if (inpX < 1 || inpX > 3 || inpY < 1 || inpY > 3) {
