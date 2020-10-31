@@ -25,8 +25,8 @@ public class Main {
 
 
     public static void main(String[] args) {
-    Boolean exit = false;
-    Board board = new Board();
+        Boolean exit = false;
+        Board board = new Board();
 
         while (!exit) {
             System.out.println(gameState);
@@ -41,8 +41,7 @@ public class Main {
                     if (playerTurn == 1) {
                         PlayerOne.playTurn(board);
                         playerTurn = 2;
-                    }
-                    else {
+                    } else {
                         PlayerTwo.playTurn(board);
                         playerTurn = 1;
                     }
@@ -52,13 +51,28 @@ public class Main {
 
                 case CheckWinner:
                     System.out.println("State Check winner");
-                    if (board.checkWinner()) {
-                        board.drawBoard();
-                        gameState = GameState.Exit;
+                    switch (board.checkWinner()) {
+                        case 'X':
+                            board.drawBoard();
+                            System.out.println("X wins");
+                            gameState = GameState.Exit;
+                            break;
+                        case 'O':
+                            board.drawBoard();
+                            System.out.println("O wins");
+                            gameState = GameState.Exit;
+                            break;
+                        case 'D':
+                            board.drawBoard();
+                            System.out.println("Draw");
+                            gameState = GameState.Exit;
+                            break;
+                        case '_':
+                            gameState = GameState.Turn;
+                            break;
                     }
-                    else
-                        gameState = GameState.Turn;
                     break;
+
 
                 case Exit:
                     System.out.println("State Exit");
@@ -92,7 +106,7 @@ public class Main {
                 gameState = GameState.Init;
                 return;
             }
-            if (!(player1.equals("easy") || player1.equals("medium") || player1.equals("hard")|| player1.equals("user"))) {
+            if (!(player1.equals("easy") || player1.equals("medium") || player1.equals("hard") || player1.equals("user"))) {
                 System.out.println("Bad parameters! 2");
                 gameState = GameState.Init;
                 return;
@@ -131,7 +145,6 @@ public class Main {
             System.out.println("Bad parameters! 4");
             gameState = GameState.Init;
         }
-
 
 
     }

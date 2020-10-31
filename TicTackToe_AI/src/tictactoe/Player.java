@@ -6,10 +6,18 @@ import java.util.Scanner;
 public class Player {
     static Scanner scanner = new Scanner(System.in);
     protected char tile;
+    protected char opponentsTile;
+
 
     public Player(char tile) {
         this.tile = tile;
+        if (tile == 'X')
+            this.opponentsTile = 'O';
+        else
+            this.opponentsTile = 'X';
+
     }
+
 
     void playTurn(Board board) {
     }
@@ -25,7 +33,7 @@ class CumputerEasy extends Player {
         System.out.println("Creating computer easy");
     }
 
-    public void playTurn(Board board){
+    public void playTurn(Board board) {
         System.out.println("Making move level \"easy\":");
         Pos pos = board.pickRandomFreePosition();
         board.setTile(pos.getX(), pos.getY(), tile);
@@ -45,6 +53,12 @@ class CumputerHard extends Player {
 
     public CumputerHard(char tile) {
         super(tile);
+    }
+
+    public void playTurn(Board board) {
+        Pos bestPos;
+        bestPos = MinMax.findBestMove(board, this.tile, this.opponentsTile);
+        board.setTile(bestPos.getX(), bestPos.getY(), this.tile);
     }
 }
 

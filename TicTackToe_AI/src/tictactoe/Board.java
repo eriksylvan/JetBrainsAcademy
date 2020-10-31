@@ -14,10 +14,10 @@ final class Pos {
     public int getX() {
         return x;
     }
-
     public int getY() {
         return y;
     }
+
 }
 
 public class Board {
@@ -78,8 +78,18 @@ public class Board {
         return new Pos(randX, randY);
     }
 
-    public Boolean checkWinner() {
-        Boolean gameFinished;
+    public static Boolean isMovesLeft()
+    {
+        for (int i = 0; i < 9; i++)
+                if (board.charAt(i) == '_')
+                    return true;
+        return false;
+    }
+
+
+
+    public char checkWinner() {
+        char winner; // X = X winner, Y = Y winner, D = Draw, _ = game not finished
         if (board.substring(0, 3).equals("XXX") ||
                 board.substring(3, 6).equals("XXX") ||
                 board.substring(6).equals("XXX") ||
@@ -88,8 +98,8 @@ public class Board {
                 (board.charAt(2) == 'X' && board.charAt(5) == 'X' && board.charAt(8) == 'X') ||
                 (board.charAt(0) == 'X' && board.charAt(4) == 'X' && board.charAt(8) == 'X') ||
                 (board.charAt(2) == 'X' && board.charAt(4) == 'X' && board.charAt(6) == 'X')) {
-            System.out.println("X wins");
-            gameFinished = true;
+            //System.out.println("X wins");
+            winner = 'X';
         } else if (board.substring(0, 3).equals("OOO") ||
                 board.substring(3, 4).equals("OOO") ||
                 board.substring(6).equals("OOO") ||
@@ -98,16 +108,16 @@ public class Board {
                 (board.charAt(2) == 'O' && board.charAt(5) == 'O' && board.charAt(8) == 'O') ||
                 (board.charAt(0) == 'O' && board.charAt(4) == 'O' && board.charAt(8) == 'O') ||
                 (board.charAt(2) == 'O' && board.charAt(4) == 'O' && board.charAt(6) == 'O')) {
-            System.out.println("O wins");
-            gameFinished = true;
+            //System.out.println("O wins");
+            winner = 'O';
         } else if (!board.contains("_")) {
-            System.out.println("Draw");
-            gameFinished = true;
+            //System.out.println("Draw");
+            winner = 'D';
         } else {
             //System.out.println("Game not finished");
-            gameFinished = false;
+            winner = '_';
         }
-        return gameFinished;
+        return winner;
     }
 }
 

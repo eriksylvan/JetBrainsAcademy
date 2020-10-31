@@ -5,15 +5,13 @@ import java.util.Random;
 import java.util.Scanner;
 
 
+
 public class Main {
 
     static Scanner scanner = new Scanner(System.in);
     static Random rand = new Random();
     static String board = "";
     static char userTile = 'X';
-    static char computerTile = 'O';
-    static char player1Tile = 'X';
-    static char player2Tile = 'O';
     static PlayerType player1Type;
     static PlayerType player2Type;
     static char playerTile;
@@ -24,7 +22,9 @@ public class Main {
 
     public enum PlayerType {
         user,
-        easy
+        easy,
+        medium,
+        hard,
     }
 
     public enum GameStates {
@@ -34,7 +34,7 @@ public class Main {
         Exit
     }
 
-    public static void main(String[] args) {
+    public static void main2(String[] args) {
         // System.out.println("Enter cells:");
         // String inp = scanner.next();
         // board = inp;
@@ -199,6 +199,15 @@ public class Main {
     }
 
     private static void setTile(int x, int y, char tile) {
+        if (getCellContent(x, y) == '_') {
+            StringBuilder str = new StringBuilder(board);
+            str.setCharAt((3 * (3 - y) + x - 1), tile);
+            board = str.toString();
+        } else
+            System.out.println("This cell is occupied! Choose another one!");
+    }
+
+    private static void setTile(int p, char tile) {
         if (getCellContent(x, y) == '_') {
             StringBuilder str = new StringBuilder(board);
             str.setCharAt((3 * (3 - y) + x - 1), tile);
